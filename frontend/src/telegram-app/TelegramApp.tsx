@@ -67,9 +67,8 @@ interface PriceResult {
   currency: string;
 }
 
-// Backend API - usa localhost in sviluppo, altrimenti mostra dati demo
-const API_BASE = 'http://localhost:8000/api/v1';
-const DEMO_MODE = true; // Attiva modalità demo quando backend non disponibile
+// Backend API - Render deployment
+const API_BASE = 'https://arbitraggio-oggetti.onrender.com/api/v1';
 
 export default function TelegramApp() {
   const [activeTab, setActiveTab] = useState<'opportunities' | 'search' | 'stats'>('opportunities');

@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, Text, Numeric, Integer, DateTime, ForeignKey, Enum as SQLEnum
-from sqlalchemy.dialects.postgresql import UUID
+# SQLite compatible - use String instead of UUID
 from sqlalchemy import JSON
 from sqlalchemy.orm import relationship
 from app.database import Base
@@ -27,8 +27,8 @@ class DestinationPlatform(str, enum.Enum):
 class Listing(Base):
     __tablename__ = "listings"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    item_id = Column(UUID(as_uuid=True), ForeignKey("items.id"), nullable=False)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    item_id = Column(String(36), ForeignKey("items.id"), nullable=False)
     
     # Piattaforma destinazione
     platform = Column(SQLEnum(DestinationPlatform), nullable=False, index=True)

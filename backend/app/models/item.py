@@ -1,7 +1,8 @@
 import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, Text, Numeric, Integer, DateTime, Enum as SQLEnum
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import TypeDecorator
+from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy import JSON
 from sqlalchemy.orm import relationship
 from app.database import Base
@@ -28,7 +29,7 @@ class SourcePlatform(str, enum.Enum):
 class Item(Base):
     __tablename__ = "items"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     source_platform = Column(SQLEnum(SourcePlatform), nullable=False, index=True)
     source_url = Column(Text, nullable=False)
     source_id = Column(String(255), nullable=False)

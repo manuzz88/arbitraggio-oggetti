@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, Text, Numeric, DateTime, ForeignKey, Enum as SQLEnum
-from sqlalchemy.dialects.postgresql import UUID
+# SQLite compatible - use String instead of UUID
 from sqlalchemy import JSON
 from sqlalchemy.orm import relationship
 from app.database import Base
@@ -23,8 +23,8 @@ class OrderStatus(str, enum.Enum):
 class Order(Base):
     __tablename__ = "orders"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    listing_id = Column(UUID(as_uuid=True), ForeignKey("listings.id"), nullable=False)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    listing_id = Column(String(36), ForeignKey("listings.id"), nullable=False)
     
     # Platform order info
     platform_order_id = Column(String(255))
